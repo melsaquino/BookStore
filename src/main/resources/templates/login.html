@@ -7,7 +7,7 @@
     <title>Login</title>
 </head>
 <body>
-  <form method="POST" th:action="@{/app/login}">
+  <form method="POST" th:action="@{/api/login}">
     <div class="form-group">
         <label for="email"> Email :</label>
         <input class="form-control" type="text" name="email" id ="email"/>
@@ -20,7 +20,7 @@
       <input  type="submit" value="Login!"/>
     </div>
     <div class="container signin">
-      <p>No account yet? <a href="/app/registration">Create an Account</a>.</p>
+      <p>No account yet? <a href="/api/registration">Create an Account</a>.</p>
     </div>
   </form>
 </body>

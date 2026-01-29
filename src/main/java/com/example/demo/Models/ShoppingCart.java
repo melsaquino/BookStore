@@ -1,17 +1,16 @@
-package com.example.demo.Entities;
+package com.example.demo.Models;
 
-import jakarta.persistence.Id;
-
-import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
-//@Entity
-//@GeneratedValue
-//@Table(name="ShoppingCart")
+@Entity
+@Table(name="shopping_cart_books")
 public class ShoppingCart {
-    //@Id
-    private int id;
+    @Id
+    @Getter
+    private String id;
     private int user;
 
     public ShoppingCart(int user_id){

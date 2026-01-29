@@ -7,9 +7,9 @@
   <title>Registration</title>
 </head>
 <body>
-<form method="POST" th:action="@{/app/registration}">
+<form method="POST" th:action="@{/api/registration}" >
   <div class="form-group">
-    <label for="email"><b>Email</b></label>
+    <label for="email" ><b>Email</b></label>
     <input type="text" class="form-control"  placeholder="Enter Email"  name="email" id="email" required>
   </div>
   
@@ -19,10 +19,10 @@
   </div>
   <div class="form-group">
     <label for="psw_repeat"><b>Repeat Password</b></label>
-    <input type="password" class="form-control" placeholder="Repeat Password"  name="psw_repeat" id="psw_repeat" required><button type="submit" class="registerbtn">Register</button>
+    <input type="password" class="form-control"  placeholder="Repeat Password"  name="psw_repeat" id="psw_repeat" required><button type="submit" class="registerbtn">Register</button>
   </div>
   <div class="container signin">
-    <p>Already have an account? <a href="/app/login">Login</a>.</p>
+    <p>Already have an account? <a href="/api/login">Login</a>.</p>
   </div>
 </form>
 </body>

@@ -1,4 +1,4 @@
-package com.example.demo.Entities;
+package com.example.demo.Models;
 import java.time.*;
 public class History {
     private String user;
