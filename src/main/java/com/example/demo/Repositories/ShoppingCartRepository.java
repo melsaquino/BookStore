@@ -3,6 +3,9 @@ package com.example.demo.Repositories;
 import com.example.demo.Models.ShoppingCart;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, String> {
-    ShoppingCart findShoppingCartByUserId();
+import java.util.List;
+
+public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Integer> {
+    List<ShoppingCart> findShoppingCartByUserId(int user_id);
+
 }

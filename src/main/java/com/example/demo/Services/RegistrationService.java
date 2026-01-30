@@ -18,7 +18,6 @@ public class RegistrationService {
     public void registerUser(String email,String password) {
         if(userRepository.findByEmail(email)==null){
             String hashedPassword = encoder.encode(password);
-            // Save the username and hashedPassword to the database
             User user=new User();
             user.setEmail(email);
             user.setPassword(hashedPassword);

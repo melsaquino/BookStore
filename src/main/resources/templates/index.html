@@ -6,9 +6,9 @@
 </head>
 <body>
     <H1>Welcome to the bookstore!</H1>
+
     <table>
         <tr>
-
             <th>Title</th>
             <th>Author</th>
             <th>Description</th>
@@ -16,14 +16,25 @@
             <th>Category</th>
         </tr>
         <tr th:each="book : ${books}">
-            <!--td th:text="${book.id}">1</td-->
+
             <td th:text="${book.title}">Title ...</td>
             <td th:text="${book.author}">Author ...</td>
             <td th:text="${book.description}">This is a book ...</td>
             <td th:text="${book.price}">300 ...</td>
             <td th:text="${book.category}">Fiction ...</td>
-            <td><button>Add to cart!</button></td>
+            <td>
+                <form th:action="@{/api/add_cart/{user_id}/{book_isbn}(user_id=${user_id},book_isbn=${book.isbn})}" method="post">
+
+                <button name="addToCart" >Add to cart now!</button>
+                </form>
         </tr>
     </table>
+    <form th:action="@{/api/shopping_cart/{user_id}(user_id=${user_id})}" method="GET">
+
+        <button type="submit">See shopping Cart</button>
+    </form>
+    <form th:action="@{/api/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
 </body>
 </html>

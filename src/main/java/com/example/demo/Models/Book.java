@@ -41,5 +41,11 @@ public class Book {
         this.title=title;
         this.price = price;
     }
+    public Book(String isbn,String author, String title,double price){
+        this.isbn =isbn;
+        this.author= author;
+        this.title=title;
+        this.price = price;
+    }
 
 }

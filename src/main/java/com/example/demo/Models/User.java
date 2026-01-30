@@ -9,6 +9,7 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     @Column(nullable = false)
     private int id;
 
@@ -22,13 +23,4 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private String shoppingCartId;
-
-    public void setShoppingCart(ShoppingCart shoppingCart){
-        this.shoppingCartId = shoppingCart.getId();
-    }
-    public void setShoppingCart(){
-
-        this.shoppingCartId = new ShoppingCart(this.id).getId();
-    }
 }

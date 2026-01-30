@@ -5,32 +5,27 @@
     <title>Shopping Cart</title>
 </head>
 <body>
-<H1 >Your Shopping Cart!</H1>
+<H1 >Your Order History</H1>
 <table>
     <tr>
         <th>Title</th>
         <th>Author</th>
-        <th>Description</th>
         <th>Price</th>
-        <th>Category</th>
+        <th>Date</th>
     </tr>
     <tr th:each="book : ${books}">
         <!--td th:text="${book.id}">1</td-->
         <td th:text="${book.title}">Title ...</td>
         <td th:text="${book.author}">Author ...</td>
-        <td th:text="${book.description}">This is a book ...</td>
         <td th:text="${book.price}">300 ...</td>
-        <td th:text="${book.category}">Fiction ...</td>
+        <td th:text="${book.date}">date ...</td>
     </tr>
 </table>
 <form th:action="@{/api/catalogue}" method="GET">
 
     <button type="submit">Back to catalogue</button>
 </form>
-<form th:action="@{/api/checkout}" method="GET">
 
-    <button type="submit">Checkout</button>
-</form>
 <form th:action="@{/api/logout}" method="post">
     <button type="submit">Logout</button>
 </form>

@@ -2,27 +2,30 @@ package com.example.demo.Services;
 
 import com.example.demo.Models.User;
 import com.example.demo.Repositories.UserRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-
-public class LoginService {
+@Service
+public class LoginService implements UserDetailsService {
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
-    private final UserRepository userRepository;
-    public LoginService(UserRepository userRepository){
-        this.userRepository=userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
-    public boolean processLogin(String email, String password){
-        if(userRepository.findByEmail(email)==null)
-            return false;
-        else{
-            User user =userRepository.findByEmail(email);
-            System.out.println(user.getEmail());
-            if (encoder.matches(password,user.getPassword()))
-                return true;
-            else
-                return false;
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user==null)
+            throw new UsernameNotFoundException("No user found!");
+
+        return new org.springframework.security.core.userdetails.User(
+            user.getEmail(),
+            user.getPassword(), new ArrayList<>());
         }
     }
-}

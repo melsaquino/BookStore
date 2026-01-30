@@ -1,9 +1,9 @@
 package com.example.demo.Models;
 import java.time.*;
-public class History {
+public class Orders {
     private String user;
     private ZonedDateTime date;
-    private History(String username){
+    private Orders(String username){
         this.user= username;
         date= ZonedDateTime.now();
     }
