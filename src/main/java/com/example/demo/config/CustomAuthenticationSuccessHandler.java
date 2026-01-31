@@ -21,11 +21,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             Authentication authentication)
             throws IOException, ServletException {
 
-        HttpSession session = request.getSession(true);
-        session.setAttribute("userEmail", authentication.getName());
-        session.setAttribute("userEmail", authentication.getName());
-        session.setAttribute("loggedIn", true);
+        HttpSession newSession = request.getSession(true);
+        newSession.setAttribute("userEmail", authentication.getName());
+        newSession.setAttribute("loggedIn", true);
 
-        response.sendRedirect("/api/catalogue");
+        response.sendRedirect("/books");
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,31 +24,29 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/api/login")
-    public String ShowLoginPage(HttpServletRequest request) {
+    @GetMapping("/login")
+    public String ShowLoginPage(HttpServletRequest request,Model model) {
         HttpSession session = request.getSession(false);
-        if (session == null ) {
-           return "login";
-        }
-        else if (session.getAttribute("loggedIn")==null)
-            return "login";
-        else if (!(boolean)session.getAttribute("loggedIn"))
-            return "login";
+        if (session!=null && session.getAttribute("loginError")!=null && (boolean)session.getAttribute("loginError")){
+            model.addAttribute("errorMessage","Invalid Email or Password!");
+            request.getSession().removeAttribute("loginError");
 
-        return "redirect:/api/catalogue";
+
+        }
+        return "login";
     }
+
     private final SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
-    @PostMapping("/api/logout")
+    @PostMapping("/logout")
     public String logout(HttpServletRequest request,HttpServletResponse response) throws ServletException {
         HttpSession session = request.getSession(false);
+        String errorMessage = (String) session.getAttribute("loginError");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             logoutHandler.logout(request, response, auth);
         }
-       /* if (session != null) {
-            session.invalidate(); // Invalidate the session
-        }*/
-        return "redirect:/api/login"; // Redirect to a login page or confirmation
+
+        return "redirect:/login"; // Redirect to a login page or confirmation
     }
 }

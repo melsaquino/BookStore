@@ -1,10 +1,8 @@
-package com.example.demo.Models;
+package com.example.demo.Entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name="books")
@@ -12,7 +10,8 @@ public class Book {
     @Id
     @Getter
     @Column(nullable = false)
-    private String isbn;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int isbn;
 
     @Getter
     @Column(nullable = false)
@@ -33,6 +32,10 @@ public class Book {
     @Getter
     @Column(nullable = false)
     private String category;
+
+    @Getter
+    @Setter
+    private int stock;
     public Book(){
 
     }
@@ -40,12 +43,27 @@ public class Book {
         this.author= author;
         this.title=title;
         this.price = price;
+        stock=1;
     }
-    public Book(String isbn,String author, String title,double price){
+    public Book(int isbn,String author, String title,double price){
         this.isbn =isbn;
         this.author= author;
         this.title=title;
         this.price = price;
+        stock=1;
+    }
+
+    public void addStock(){
+        this.stock++;
+    }
+    public void addStock(int stock){
+        this.stock+=stock;
+    }
+    public void reduceStock(){
+        this.stock--;
+    }
+    public void reduceStock(int stock){
+        this.stock-=stock;
     }
 
 }

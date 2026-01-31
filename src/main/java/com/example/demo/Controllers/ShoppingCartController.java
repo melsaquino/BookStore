@@ -1,18 +1,22 @@
 package com.example.demo.Controllers;
-import com.example.demo.Models.Book;
+import com.example.demo.Entities.Book;
+
 import com.example.demo.Repositories.BooksCatalogueRepository;
 import com.example.demo.Repositories.ShoppingCartRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.ShoppingCartService;
+import com.example.demo.Services.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ShoppingCartController {
@@ -22,23 +26,39 @@ public class ShoppingCartController {
     private UserRepository userRepository;
     @Autowired
     private ShoppingCartRepository shoppingRepository;
-    @GetMapping("/api/shopping_cart/{user}")
-    public String showShoppingCart(@PathVariable("user") int user_id, Model model, HttpSession session){
-        if (session != null && session.getAttribute("loggedIn")!=null && ((boolean) session.getAttribute("loggedIn"))) {
-            ShoppingCartService shoppingCartService =new ShoppingCartService(shoppingRepository,booksCatalogueRepository,userRepository);
-            List<Book> books = shoppingCartService.getShoppingCartBooks(user_id);
-            //System.out.println(books.size());
-            model.addAttribute("books",books);
+    @GetMapping("/shopping_cart/{user}")
+    public String showShoppingCart(@PathVariable("user") int userId, Model model, HttpSession session){
+
+        UserService userService = new UserService(userRepository);
+        if(userService.findUser((String)session.getAttribute("userEmail"))==userId){
+            try{
+                ShoppingCartService shoppingCartService =new ShoppingCartService(shoppingRepository,booksCatalogueRepository,userRepository);
+
+                Map<Book,Integer> books = shoppingCartService.getShoppingCartBooks(userId);
+                model.addAttribute("userId",userId);
+                model.addAttribute("books",books);
+            } catch (Exception e) {
+                model.addAttribute("errorMessage",e.getMessage());
+            }
+
             return "shoppingCart";
+
         }
 
-        return "redirect:/api/login";
+        return "redirect:/logout";
+
     }
 
-    @PostMapping("/api/add_cart/{user_id}/{book_isbn}")
-    public String addToCart(@PathVariable("user_id") int user_id, @PathVariable("book_isbn") String book_isbn ){
+    @PostMapping("/add_cart/{userId}/{bookIsbn}")
+    public String addToCart(@PathVariable("userId") int userId, @PathVariable("bookIsbn") int bookIsbn ){
         ShoppingCartService shoppingCartService =new ShoppingCartService(shoppingRepository,booksCatalogueRepository,userRepository);
-        shoppingCartService.AddToShoppingCart(user_id,book_isbn);
-        return "redirect:/api/shopping_cart/{user_id}";
+        shoppingCartService.AddToShoppingCart(userId,bookIsbn);
+        return "redirect:/shopping_cart/{userId}";
+    }
+
+    @DeleteMapping("/delete_cart_book/{bookIsbn}")
+    public String deleteFromShoppingCart(){
+
+        return "redirect:/shopping_cart/{userId}";
     }
 }

@@ -1,8 +1,8 @@
 package com.example.demo.Services;
 
-import com.example.demo.Models.User;
+import com.example.demo.Entities.User;
 import com.example.demo.Repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.exceptions.UserExistsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class RegistrationService {
         this.userRepository=userRepository;
     }
 
-    public void registerUser(String email,String password) {
+    public void registerUser(String email,String password) throws UserExistsException {
         if(userRepository.findByEmail(email)==null){
             String hashedPassword = encoder.encode(password);
             User user=new User();
@@ -24,8 +24,8 @@ public class RegistrationService {
 
             this.userRepository.save(user);
         }
-        else
-            System.out.println("Exists");
+        else throw new UserExistsException("User already exists!");
+
 
     }
 }

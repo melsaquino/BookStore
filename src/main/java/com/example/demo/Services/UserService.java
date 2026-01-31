@@ -1,6 +1,6 @@
 package com.example.demo.Services;
 
-import com.example.demo.Models.User;
+import com.example.demo.Entities.User;
 import com.example.demo.Repositories.UserRepository;
 
 public class UserService {
@@ -14,6 +14,8 @@ public class UserService {
         if (user!=null)
             return user.getId();
         else
-            return 0;
+            return -1;
     }
+
+
 }

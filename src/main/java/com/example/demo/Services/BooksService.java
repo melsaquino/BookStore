@@ -1,8 +1,7 @@
 package com.example.demo.Services;
 
-import com.example.demo.Models.Book;
+import com.example.demo.Entities.Book;
 import com.example.demo.Repositories.BooksCatalogueRepository;
-import com.example.demo.Repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,7 +9,6 @@ import java.util.List;
 
 public class BooksService {
 
-    @Autowired
     private final BooksCatalogueRepository booksCatalogueRepository;
 
     public BooksService(BooksCatalogueRepository booksCatalogueRepository){
@@ -20,5 +18,11 @@ public class BooksService {
     public List<Book> getAllBooks(){
         return booksCatalogueRepository.findAll();
     }
+
+    @Transactional
+    public List<Book> getAllBooksInStock(){
+        return booksCatalogueRepository.findByStockNot(0);
+    }
+
 
 }

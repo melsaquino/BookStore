@@ -2,32 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Shopping Cart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <title>Your Order History</title>
 </head>
 <body>
-<H1 >Your Order History</H1>
-<table>
-    <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Price</th>
-        <th>Date</th>
-    </tr>
-    <tr th:each="book : ${books}">
-        <!--td th:text="${book.id}">1</td-->
-        <td th:text="${book.title}">Title ...</td>
-        <td th:text="${book.author}">Author ...</td>
-        <td th:text="${book.price}">300 ...</td>
-        <td th:text="${book.date}">date ...</td>
-    </tr>
-</table>
-<form th:action="@{/api/catalogue}" method="GET">
+    <h1 >Your Order History</h1>
+    <div th:insert="nav.html::navbar">
+    </div>
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}">Display the error message here.</p>
+    </div>
+    <table class="table table-bordered">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Price per item</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Date</th>
+        </tr>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.value.title}">Title ...</td>
+            <td th:text="${order.value.author}">Author...</td>
 
-    <button type="submit">Back to catalogue</button>
-</form>
+            <td th:text="${order.value.price}">300 ...</td>
+            <td th:text="${order.key.quantity}">30 ...</td>
+            <td th:text="${order.key.total}">330 ...</td>
+            <td th:text="${order.key.transactionDate}">date ...</td>
+        </tr>
+    </table>
 
-<form th:action="@{/api/logout}" method="post">
-    <button type="submit">Logout</button>
-</form>
 </body>
 </html>

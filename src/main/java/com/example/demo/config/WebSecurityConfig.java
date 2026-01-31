@@ -14,26 +14,33 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+public class WebSecurityConfig implements WebMvcConfigurer {
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+    private final SessionInterceptor sessionInterceptor;
    @Bean
    SecurityFilterChain securityFilterChain(HttpSecurity http) {
         // @formatter:off
         http.authorizeHttpRequests(requests -> requests
-                        .requestMatchers("/api/login", "/api/registration").permitAll()
+                        .requestMatchers("/login", "/registration").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-                        .loginPage("/api/login")
-                        .loginProcessingUrl("/api/login")
+                        .loginPage("/login")
                         .successHandler(customAuthenticationSuccessHandler)
+                        .failureHandler((request, response, exception) -> {
+                            request.getSession().setAttribute("loginError", true);
+                            response.sendRedirect("/login");
+                        })
                         .usernameParameter("email")
                         .permitAll()
                 )
-                .logout((logout) -> logout.logoutUrl("/api/logout/"))
+                .logout((logout) -> logout.logoutUrl("/logout/"))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 );
@@ -43,6 +50,12 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(sessionInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/css/**", "/js/**", "/images/**");;
+    }
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
