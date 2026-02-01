@@ -9,6 +9,7 @@ import com.example.demo.Repositories.ShoppingCartRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.exceptions.BookDoesNotExist;
 import com.example.demo.exceptions.BookNoStockException;
+import com.example.demo.exceptions.UserDoesNotExist;
 
 import java.util.List;
 
@@ -37,9 +38,10 @@ public class CheckoutService {
                     //check if book is still in stock
                     if (isBookExists(shoppingCartEntry.getBookIsbn())){
                         Book shoppingCartBook =booksCatalogueRepository.findByIsbn(shoppingCartEntry.getBookIsbn());
+                        //check if the current stock of books has less books than what is in the shopping cart
                         if (shoppingCartBook.getStock()<shoppingCartEntry.getQuantity()){
                             shoppingCartRepository.delete(shoppingCartEntry);
-                            throw new BookNoStockException(shoppingCartEntry.getQuantity());
+                            throw new BookNoStockException(shoppingCartBook.getTitle(),shoppingCartEntry.getQuantity());
                         }
                         else
                             shoppingCartBook.reduceStock(shoppingCartEntry.getQuantity());
@@ -60,6 +62,7 @@ public class CheckoutService {
                 }
             }
         }
+        else throw new UserDoesNotExist("User does not exist to make that transaction");
 
     }
 

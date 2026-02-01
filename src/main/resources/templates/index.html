@@ -16,24 +16,24 @@
     </div>
     <div class="container">
         <div style="padding:10px">
-            <form class="d-flex" method="get" action="/items">
+            <form class="d-flex" method="get" action="/books/search">
                 <input class="form-control me-2"
                 type="search"
-                name="q"
+                name="query"
                 placeholder="Search…">
                 <button class="btn btn-outline-success" type="submit">
                     Search
                 </button>
             </form>
         </div>
-        <form method="get" class="row g-2 mb-3">
+        <form method="get" action="/books/filtered" class="row g-2 mb-3">
             <input type="hidden" name="q" th:value="${param.q}">
 
             <div class="col-md-3">
                 <select class="form-select" name="category">
                     <option value="">All categories</option>
                     <option value="Fiction">Fiction</option>
-                    <option value="art">Non-Fiction</option>
+                    <option value="Non-fiction">Non-Fiction</option>
                 </select>
             </div>
 
@@ -47,7 +47,7 @@
                     <option value="1-100"> <100</option>
                     <option value="101-200">101-200</option>
                     <option value="201-300">201-300</option>
-                    <option value="301-400">301-500</option>
+                    <option value="301-400">301-400</option>
                     <option value="401-500">401-500</option>
                     <option value="500+">500</option>
 

@@ -6,6 +6,8 @@ import com.example.demo.Repositories.BooksCatalogueRepository;
 import com.example.demo.Repositories.OrdersRepository;
 import com.example.demo.Repositories.ShoppingCartRepository;
 import com.example.demo.Repositories.UserRepository;
+import com.example.demo.exceptions.BookDoesNotExist;
+import com.example.demo.exceptions.UserDoesNotExist;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,18 +34,19 @@ public class ShoppingCartService {
         return booksInCart;
 
     }
-    public void AddToShoppingCart(int user_id,int isbn) {
+    public void AddToShoppingCart(int user_id,int isbn) throws BookDoesNotExist {
         ShoppingCart shoppingCartEntry;
         //check if user and book isbn are real
         if(userRepository.findById(user_id)!=null && booksCatalogueRepository.findByIsbn(isbn)!=null){
             //check if the user already has this specific book in their cart
             if (shoppingCartRepository.findShoppingCartByUserIdAndBookIsbn(user_id,isbn)!=null){
-
-
+                //check if quantity will exceed book stock if it is added to cart
                 shoppingCartEntry =shoppingCartRepository.findShoppingCartByUserIdAndBookIsbn(user_id,isbn);
+                if(shoppingCartEntry.getQuantity()+1 <= booksCatalogueRepository.findByIsbn(isbn).getStock()){
+                    shoppingCartEntry.addQuantity();
+                    this.shoppingCartRepository.save(shoppingCartEntry);
+                }
 
-                shoppingCartEntry.addQuantity();
-                this.shoppingCartRepository.save(shoppingCartEntry);
             }else{
                 shoppingCartEntry = new ShoppingCart();
                 shoppingCartEntry.setBookIsbn(isbn);
@@ -52,8 +55,11 @@ public class ShoppingCartService {
             }
 
         }
-        else
-            System.out.println("invalid entries");
+        else{
+            if(booksCatalogueRepository.findByIsbn(isbn)==null)
+                throw new BookDoesNotExist(isbn);
+            else throw new UserDoesNotExist("The user does not exist to make that transaction");
+        }
 
     }
     /*public String deleteFromCart(String book_isbn,int id){
@@ -61,12 +67,11 @@ public class ShoppingCartService {
             if(shoppingCartRepository.findShoppingCartByBookIsbn(book_isbn)!
         }
     }*/
-    public ShoppingCart getShoppingCartByIsbn(int book_isbn){
+    public ShoppingCart getShoppingCartByIsbn(int book_isbn) throws BookDoesNotExist {
         if(shoppingCartRepository.findShoppingCartByBookIsbn(book_isbn)!=null)
             return shoppingCartRepository.findShoppingCartByBookIsbn(book_isbn);
         else {
-            System.out.println("invalid");
-            return null;
+            throw new BookDoesNotExist("Book does not exist in shoppingCart");
         }
 
     }

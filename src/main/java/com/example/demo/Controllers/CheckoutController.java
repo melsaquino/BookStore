@@ -35,7 +35,6 @@ public class CheckoutController {
         try{
             checkoutService.processCheckout(userId);
             return "redirect:/books";
-
         }catch(Exception e){
             model.addAttribute("errorMessage",e.getMessage());
             return "shoppingCart";

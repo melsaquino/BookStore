@@ -5,7 +5,7 @@ public class BookNoStockException extends Exception {
         super(message);
     }
 
-    public BookNoStockException(int quantity){
-      super("Not Enough Stock to Reduce Quantity by "+quantity);
+    public BookNoStockException(String title,int quantity){
+      super("Not Enough Stock to Reduce "+title+" Quantity by "+quantity);
     }
 }
