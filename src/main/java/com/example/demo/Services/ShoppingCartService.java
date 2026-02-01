@@ -1,18 +1,16 @@
 package com.example.demo.Services;
 
+import com.example.demo.DTO.ShoppingCartEntryDTO;
 import com.example.demo.Entities.Book;
 import com.example.demo.Entities.ShoppingCart;
 import com.example.demo.Repositories.BooksCatalogueRepository;
-import com.example.demo.Repositories.OrdersRepository;
 import com.example.demo.Repositories.ShoppingCartRepository;
 import com.example.demo.Repositories.UserRepository;
-import com.example.demo.exceptions.BookDoesNotExist;
-import com.example.demo.exceptions.UserDoesNotExist;
+import com.example.demo.Exceptions.BookDoesNotExist;
+import com.example.demo.Exceptions.UserDoesNotExist;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
@@ -24,12 +22,12 @@ public class ShoppingCartService {
         this.booksCatalogueRepository=booksCatalogueRepository;
         this.userRepository=userRepository;
     }
-    public Map<Book, Integer> getShoppingCartBooks(int user_id ){
+    public List<ShoppingCartEntryDTO> getShoppingCartBooks(int user_id ){
         List<ShoppingCart> userShoppingCart=shoppingCartRepository.findShoppingCartByUserId(user_id);
-        Map<Book,Integer> booksInCart = new HashMap<>();
+        List<ShoppingCartEntryDTO> booksInCart= new ArrayList<>();
         for (ShoppingCart cartItem:userShoppingCart){
             Book book=booksCatalogueRepository.findByIsbn(cartItem.getBookIsbn());
-            booksInCart.put(book,cartItem.getQuantity());
+            booksInCart.add(new ShoppingCartEntryDTO(cartItem.getShoppingId(),book.getIsbn(), book.getTitle(), book.getAuthor(), book.getCategory(), cartItem.getQuantity(), book.getPrice()));
         }
         return booksInCart;
 

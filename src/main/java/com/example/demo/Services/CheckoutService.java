@@ -7,9 +7,9 @@ import com.example.demo.Repositories.BooksCatalogueRepository;
 import com.example.demo.Repositories.OrdersRepository;
 import com.example.demo.Repositories.ShoppingCartRepository;
 import com.example.demo.Repositories.UserRepository;
-import com.example.demo.exceptions.BookDoesNotExist;
-import com.example.demo.exceptions.BookNoStockException;
-import com.example.demo.exceptions.UserDoesNotExist;
+import com.example.demo.Exceptions.BookDoesNotExist;
+import com.example.demo.Exceptions.BookNoStockException;
+import com.example.demo.Exceptions.UserDoesNotExist;
 
 import java.util.List;
 
@@ -24,9 +24,7 @@ public class CheckoutService {
         this.booksCatalogueRepository=booksCatalogueRepository;
         this.userRepository=userRepository;
         this.ordersRepository=ordersRepository;
-
     }
-
 
     //checkout all in the cart
     public void processCheckout(int userId) throws BookDoesNotExist, BookNoStockException {

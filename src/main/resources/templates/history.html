@@ -23,13 +23,13 @@
             <th>Date</th>
         </tr>
         <tr th:each="order : ${orders}">
-            <td th:text="${order.value.title}">Title ...</td>
-            <td th:text="${order.value.author}">Author...</td>
+            <td th:text="${order.bookTitle}">Title ...</td>
+            <td th:text="${order.bookAuthor}">Author...</td>
 
-            <td th:text="${order.value.price}">300 ...</td>
-            <td th:text="${order.key.quantity}">30 ...</td>
-            <td th:text="${order.key.total}">330 ...</td>
-            <td th:text="${order.key.transactionDate}">date ...</td>
+            <td th:text="${order.pricePerBook}">300 ...</td>
+            <td th:text="${order.quantity}">30 ...</td>
+            <td th:text="${order.total}">330 ...</td>
+            <td th:text="${order.transactionDate}">date ...</td>
         </tr>
     </table>
 

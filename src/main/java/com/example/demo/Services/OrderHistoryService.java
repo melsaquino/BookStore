@@ -1,5 +1,6 @@
 package com.example.demo.Services;
 
+import com.example.demo.DTO.OrderHistoryEntryDTO;
 import com.example.demo.Entities.Book;
 import com.example.demo.Entities.Order;
 import com.example.demo.Repositories.BooksCatalogueRepository;
@@ -20,16 +21,16 @@ public class OrderHistoryService {
 
     }
 
-    public  Map<Order,Book>getBooksOrderedByCustomerId(int userId){
+    public  List<OrderHistoryEntryDTO>getBooksOrderedByCustomerId(int userId){
         List<Order> userOrders =this.ordersRepository.getOrdersByCustomerId(userId);
-        userOrders.sort(Comparator.comparing(Order::getTransactionDate).reversed());
-        Map<Order,Book> customerBooks =new LinkedHashMap<>();
+        List<OrderHistoryEntryDTO> customerOrderedBooks =new ArrayList<>();
 
         for(Order order:userOrders){
             Book book = booksCatalogueRepository.findByIsbn(order.getBookIsbn());
-            customerBooks.put(order,book);
+            customerOrderedBooks.add(new OrderHistoryEntryDTO(order.getTransactionId(), order.getCustomerId(), order.getBookIsbn(),
+                    book.getTitle(),book.getAuthor(),order.getQuantity(), book.getPrice(), order.getTotal(),order.getTransactionDate()));
         }
-
-        return customerBooks;
+        customerOrderedBooks.sort(Comparator.comparing(OrderHistoryEntryDTO::getTransactionDate).reversed());
+        return customerOrderedBooks;
     }
 }

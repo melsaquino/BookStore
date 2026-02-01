@@ -1,5 +1,5 @@
 package com.example.demo.Controllers;
-import com.example.demo.Entities.Book;
+import com.example.demo.DTO.ShoppingCartEntryDTO;
 
 import com.example.demo.Repositories.BooksCatalogueRepository;
 import com.example.demo.Repositories.ShoppingCartRepository;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class ShoppingCartController {
@@ -33,7 +32,7 @@ public class ShoppingCartController {
         if(userService.findUser((String)session.getAttribute("userEmail"))==userId){
             try{
                 ShoppingCartService shoppingCartService =new ShoppingCartService(shoppingRepository,booksCatalogueRepository,userRepository);
-                Map<Book,Integer> books = shoppingCartService.getShoppingCartBooks(userId);
+                List<ShoppingCartEntryDTO> books = shoppingCartService.getShoppingCartBooks(userId);
                 model.addAttribute("userId",userId);
                 model.addAttribute("books",books);
             } catch (Exception e) {
@@ -50,11 +49,12 @@ public class ShoppingCartController {
         ShoppingCartService shoppingCartService = new ShoppingCartService(shoppingRepository,booksCatalogueRepository,userRepository);
         try{
            shoppingCartService.AddToShoppingCart(userId,bookIsbn);
+            return "redirect:/shopping_cart/{userId}";
+
         }catch(Exception e){
            model.addAttribute("errorMessage",e.getMessage());
            return "index";
         }
-        return "redirect:/shopping_cart/{userId}";
     }
 
     @DeleteMapping("/delete_cart_book/{bookIsbn}")

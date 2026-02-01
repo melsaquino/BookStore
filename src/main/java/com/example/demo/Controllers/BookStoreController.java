@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 
-import com.example.demo.Entities.Book;
+import com.example.demo.DTO.BookDTO;
+import com.example.demo.Exceptions.UserEmailHasNoIdException;
 import com.example.demo.Repositories.BooksCatalogueRepository;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.BooksService;
@@ -28,49 +29,49 @@ public class BookStoreController {
 
     }
     @GetMapping("/books")
-    public String showCatalogue(Model model, HttpSession session) {
-        BooksService booksService;
+    public String showCatalogue(Model model, HttpSession session) throws UserEmailHasNoIdException {
+
         UserService userService;
-
-        booksService = new BooksService(booksCatalogueRepository);
         userService = new UserService(userRepository);
-        List<Book> books = booksService.getAllBooksInStock();
-        int currentUserId = userService.findUser((String)session.getAttribute("userEmail"));
 
+        int currentUserId = userService.findUser((String)session.getAttribute("userEmail"));
+        if (currentUserId ==-1){
+            throw new UserEmailHasNoIdException("Your email does not have an Id associated with it");
+        }
         model.addAttribute("userId",currentUserId);
-        model.addAttribute("books",books);
+
         return "index";
     }
-
-    @GetMapping("/books/filtered")
+    /*
+   @GetMapping("/books/filtered")
     public String showFilteredCatalogue(@RequestParam("author")String author,@RequestParam("priceRange")String priceRange,
                                         @RequestParam String category,Model model,HttpSession session){
         BooksService booksService = new BooksService(booksCatalogueRepository);
         UserService userService = new UserService(userRepository);
         int currentUserId = userService.findUser((String)session.getAttribute("userEmail"));
         try{
-            List<Book> books = booksService.getFilteredBooks(author,category,priceRange);
+            List<BookDTO> books = booksService.getFilteredBooks(author,category,priceRange);
             model.addAttribute("books",books);
         }catch(Exception e){
             model.addAttribute("errorMessage",e.getMessage());
 
         }
         model.addAttribute("userId",currentUserId);
-        return "index";
-    }
-    @GetMapping("/books/search")
+        //return "index";
+    }*/
+    /*@GetMapping("/books/search")
     public String showSearchResults(@RequestParam("query")String query, Model model,HttpSession session){
         UserService userService = new UserService(userRepository);
         BooksService booksService = new BooksService(booksCatalogueRepository);
 
         int currentUserId = userService.findUser((String)session.getAttribute("userEmail"));
-        List<Book> books = booksService.getSearchResultsBooks(query);
+        List<BookDTO> books = booksService.getSearchResultsBooks(query);
         model.addAttribute("books",books);
 
         model.addAttribute("userId",currentUserId);
         return "index";
 
-    }
+    }*/
 
 }
 

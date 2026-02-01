@@ -1,5 +1,6 @@
 package com.example.demo.Services;
 
+import com.example.demo.DTO.UserDTO;
 import com.example.demo.Entities.User;
 import com.example.demo.Repositories.UserRepository;
 
@@ -10,7 +11,7 @@ public class UserService {
     }
 
     public int findUser(String email){
-        User user =userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email);
         if (user!=null)
             return user.getId();
         else

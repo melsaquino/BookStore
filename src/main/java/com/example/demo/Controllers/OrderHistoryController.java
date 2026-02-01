@@ -1,5 +1,6 @@
 package com.example.demo.Controllers;
 
+import com.example.demo.DTO.OrderHistoryEntryDTO;
 import com.example.demo.Entities.Book;
 import com.example.demo.Entities.Order;
 import com.example.demo.Repositories.BooksCatalogueRepository;
@@ -27,7 +28,7 @@ public class OrderHistoryController {
     public  String showOrderHistory(@PathVariable("userId")int userId, Model model){
 
         OrderHistoryService orderHistoryService=new OrderHistoryService(ordersRepository,booksCatalogueRepository);
-        Map<Order,Book> orders=orderHistoryService.getBooksOrderedByCustomerId(userId);
+        List<OrderHistoryEntryDTO> orders=orderHistoryService.getBooksOrderedByCustomerId(userId);
         model.addAttribute("userId",userId);
         model.addAttribute("orders",orders);
         return"history";

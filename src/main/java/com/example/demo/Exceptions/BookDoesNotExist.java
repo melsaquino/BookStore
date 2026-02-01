@@ -1,4 +1,4 @@
-package com.example.demo.exceptions;
+package com.example.demo.Exceptions;
 
 public class BookDoesNotExist extends Exception {
     public BookDoesNotExist(String message) {

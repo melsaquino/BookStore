@@ -16,18 +16,16 @@
         <tr>
             <th>Title</th>
             <th>Author</th>
-            <th>Description</th>
             <th>Price</th>
             <th>Category</th>
             <th>Quantity</th>
         </tr>
         <tr th:each="book : ${books}">
-            <td th:text="${book.key.title}">Title ...</td>
-            <td th:text="${book.key.author}">Author ...</td>
-            <td th:text="${book.key.description}">This is a book ...</td>
-            <td th:text="${book.key.price}">300 ...</td>
-            <td th:text="${book.key.category}">Fiction ...</td>
-            <td th:text="${book.value}">0 ...</td>
+            <td th:text="${book.bookTitle}">Title ...</td>
+            <td th:text="${book.bookAuthor}">Author ...</td>
+            <td th:text="${book.price}">300 ...</td>
+            <td th:text="${book.category}">Fiction ...</td>
+            <td th:text="${book.quantity}">0 ...</td>
         </tr>
     </table>
 

@@ -3,6 +3,7 @@ package com.example.demo.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
@@ -26,7 +27,9 @@ public class WebSecurityConfig implements WebMvcConfigurer {
    @Bean
    SecurityFilterChain securityFilterChain(HttpSecurity http) {
         // @formatter:off
-        http.authorizeHttpRequests(requests -> requests
+        http.  csrf(csrf -> csrf.disable())
+
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/login", "/registration").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -45,7 +48,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 );
 
-        // @formatter:on
 
         return http.build();
     }

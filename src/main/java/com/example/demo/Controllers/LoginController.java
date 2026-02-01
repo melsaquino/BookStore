@@ -31,7 +31,6 @@ public class LoginController {
             model.addAttribute("errorMessage","Invalid Email or Password!");
             request.getSession().removeAttribute("loginError");
 
-
         }
         return "login";
     }

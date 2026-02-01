@@ -1,4 +1,4 @@
-package com.example.demo.exceptions;
+package com.example.demo.Exceptions;
 
 public class BookNoStockException extends Exception {
     public BookNoStockException(String message) {

@@ -6,12 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class UserDTO {
-    @NotNull
-    @NotEmpty
-    @Setter
-    @Getter
-    private String password;
-    private String matchingPassword;
 
     // standard getters and setters
     @Getter
@@ -19,6 +13,13 @@ public class UserDTO {
     @NotNull
     @NotEmpty
     private String email;
+
+    private int id;
+
+    public UserDTO(int id, String email){
+        this.id = id;
+        this.email =email;
+    }
 
 
 }

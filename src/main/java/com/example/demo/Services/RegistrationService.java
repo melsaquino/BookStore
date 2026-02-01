@@ -2,7 +2,7 @@ package com.example.demo.Services;
 
 import com.example.demo.Entities.User;
 import com.example.demo.Repositories.UserRepository;
-import com.example.demo.exceptions.UserExistsException;
+import com.example.demo.Exceptions.UserExistsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
