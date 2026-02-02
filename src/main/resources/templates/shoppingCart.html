@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}">
+    <meta name="_csrf_header" content="${_csrf.headerName}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="/fetchShoppingCart.js" defer></script>
     <title>Shopping Cart</title>
 </head>
 <body>
@@ -12,6 +15,8 @@
     <div th:if="${errorMessage}" class="alert alert-danger">
         <p th:text="${errorMessage}">Display the error message here.</p>
     </div>
+    <div id="books-container" th:attr="data-user-id=${userId}"></div>
+
     <table class="table table-bordered container">
         <tr>
             <th>Title</th>
@@ -20,13 +25,9 @@
             <th>Category</th>
             <th>Quantity</th>
         </tr>
-        <tr th:each="book : ${books}">
-            <td th:text="${book.bookTitle}">Title ...</td>
-            <td th:text="${book.bookAuthor}">Author ...</td>
-            <td th:text="${book.price}">300 ...</td>
-            <td th:text="${book.category}">Fiction ...</td>
-            <td th:text="${book.quantity}">0 ...</td>
-        </tr>
+        <tbody id="books-list">
+        <!-- rows will be injected here -->
+        </tbody>
     </table>
 
     <form th:action="@{/checkout/{userId}/all(userId=${userId})}" method="POST">
@@ -34,4 +35,5 @@
     </form>
 
 </body>
+
 </html>

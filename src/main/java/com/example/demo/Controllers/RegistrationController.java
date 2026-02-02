@@ -1,5 +1,6 @@
 package com.example.demo.Controllers;
 
+import com.example.demo.Exceptions.PasswordMismatchException;
 import com.example.demo.Repositories.UserRepository;
 import com.example.demo.Services.RegistrationService;
 import com.example.demo.Exceptions.UserExistsException;
@@ -22,30 +23,21 @@ public class RegistrationController {
         }
         return "registration";
     }
-    //https://www.baeldung.com/spring-security-registration-password-encoding-bcrypt
     @PostMapping("/registration")
     public String createUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("psw_repeat") String psw_repeat, Model model){
         RegistrationService registrationService;
 
-        if(isPasswordsMatch(password, psw_repeat)){
-            registrationService = new RegistrationService(userRepository);
-            try{
-                registrationService.registerUser(email,password);
-                return "login";
+        registrationService = new RegistrationService(userRepository);
+        try{
+            registrationService.registerUser(email,password,psw_repeat);
+            return "login";
 
-            } catch (UserExistsException e) {
-                model.addAttribute("errorMessage",e.getMessage());
-                return "/registration";
+        } catch (UserExistsException | PasswordMismatchException e) {
+            model.addAttribute("errorMessage",e.getMessage());
 
-            }
-
+            return "/registration";
         }
-        model.addAttribute("errorMessage","Passwords don't match!");
 
-        return "/registration";
 
-    }
-    private boolean isPasswordsMatch(String password, String psw_repeat){
-        return password.equals(psw_repeat);
     }
 }

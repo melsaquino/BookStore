@@ -26,18 +26,11 @@ public class ShoppingCartController {
     @Autowired
     private ShoppingCartRepository shoppingRepository;
 
-    @GetMapping("/shopping_cart/{user}")
-    public String showShoppingCart(@PathVariable("user") int userId, Model model, HttpSession session){
+    @GetMapping("/shopping_cart/{userId}")
+    public String showShoppingCart(@PathVariable("userId") int userId, Model model, HttpSession session){
         UserService userService = new UserService(userRepository);
         if(userService.findUser((String)session.getAttribute("userEmail"))==userId){
-            try{
-                ShoppingCartService shoppingCartService =new ShoppingCartService(shoppingRepository,booksCatalogueRepository,userRepository);
-                List<ShoppingCartEntryDTO> books = shoppingCartService.getShoppingCartBooks(userId);
-                model.addAttribute("userId",userId);
-                model.addAttribute("books",books);
-            } catch (Exception e) {
-                model.addAttribute("errorMessage",e.getMessage());
-            }
+            model.addAttribute("userId",userId);
             return "shoppingCart";
         }
         return "redirect:/logout";
@@ -50,7 +43,6 @@ public class ShoppingCartController {
         try{
            shoppingCartService.AddToShoppingCart(userId,bookIsbn);
             return "redirect:/shopping_cart/{userId}";
-
         }catch(Exception e){
            model.addAttribute("errorMessage",e.getMessage());
            return "index";
