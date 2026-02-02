@@ -87,6 +87,7 @@ public class BooksService {
 
     public double[] parseRange(String priceRange) {
         double[] priceRangeDouble = new double[2];
+
         if (priceRange.equals("500+")) {
             priceRangeDouble[0] = 500;
             priceRangeDouble[1] = Double.POSITIVE_INFINITY;
