@@ -22,12 +22,11 @@ public class CheckoutController {
     @Autowired
     private OrdersRepository ordersRepository;
 
-    @GetMapping("/checkout/all")
-    public String showCheckout(){
-
-        return "checkout";
-
-    }
+    /**
+     * makes sure that the correct redirects after adding to cart or going to shopping cart page when there is an issue
+     * @param userId used to ensure the correct user is checking out
+     *
+     * */
     @PostMapping("/checkout/{userId}/all")
     public String checkoutAll(@PathVariable("userId")int userId, Model model){
         CheckoutService checkoutService=new CheckoutService(shoppingRepository,booksCatalogueRepository,

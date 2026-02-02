@@ -24,6 +24,11 @@ public class ShoppingCartRestController {
     private UserRepository userRepository;
     @Autowired
     private ShoppingCartRepository shoppingRepository;
+    /**
+     * This method is used to retrieve all the books that are in the user's shopping cart
+     * @return A response entity that communicates the http status and the user's shopping cart will be in the body
+     * @param userId the current user's id to ensure the shopping cart of the correct user is shown to the correct user
+     *  */
     @GetMapping("/shopping_cart/{userId}")
     public ResponseEntity<List<ShoppingCartEntryDTO>> showShoppingCart(@PathVariable("userId") int userId, HttpSession session){
         UserService userService = new UserService(userRepository);

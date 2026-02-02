@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RegistrationController {
     @Autowired
     private UserRepository userRepository;
+    /**
+     * Shows the registration
+     * */
     @GetMapping("/registration")
     public String ShowRegistrationPage(HttpSession session){
         if (session != null &&  session.getAttribute("loggedIn")!=null && ((boolean) session.getAttribute("loggedIn"))) {
@@ -23,6 +26,13 @@ public class RegistrationController {
         }
         return "registration";
     }
+    /**
+     * Controller that triggers the registration service that will make the user
+     * @email email the user will be used and will be their username
+     * @password password to be saved once hashed
+     *
+     * */
+
     @PostMapping("/registration")
     public String createUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("psw_repeat") String psw_repeat, Model model){
         RegistrationService registrationService;

@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * This class represents the REST controllers used to retrieve data primarily data from the books databas.
+ *
+ */
 @RestController
 @RequestMapping("/api/")
 public class BooksCatalogueRestController {
@@ -27,6 +30,10 @@ public class BooksCatalogueRestController {
 
     @Autowired
     private UserRepository userRepository;
+    /**
+     * This method is used to retrieve all the books that are in stock
+     * @return A response entity that communicates the http status and the booksDTO will be in the body
+     *  */
     @GetMapping("/books")
     public ResponseEntity<List<BookDTO>> showBooks(){
         BooksService booksService = new BooksService(booksCatalogueRepository);
@@ -38,6 +45,13 @@ public class BooksCatalogueRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    /**
+     * This method is used to retrieve all the books that fit into the filter
+     * @param author string author that is used by the bookService object to filter by author
+     * @param priceRange string representation of the price range user wants to query used by bookService
+     * @param category string representation of the category book field that the user wants filter by
+     * @return A response entity that communicates the http status and the booksDTO that will be in the body
+     *  */
     @GetMapping("/books/filtered")
     public ResponseEntity<List<BookDTO>> showFilteredCatalogue(@RequestParam(name= "author",required = false)String author, @RequestParam(name= "priceRange",required = false)String priceRange,
                                         @RequestParam(name = "category",required = false) String category, HttpSession session){
@@ -49,6 +63,11 @@ public class BooksCatalogueRestController {
         books = booksService.getFilteredBooks(author,category,priceRange);
         return ResponseEntity.ok(books);
     }
+    /**
+     * This method is used to retrieve all the books that fit into the filter
+     * @param query string author that is used by the bookService object to filter by author
+     * @return A response entity that communicates the http status and the booksDTO that will be in the body
+     *  */
     @GetMapping("/books/search")
     public ResponseEntity<List<BookDTO>>  showSearchResults(@RequestParam("query")String query,HttpSession session){
         UserService userService = new UserService(userRepository);

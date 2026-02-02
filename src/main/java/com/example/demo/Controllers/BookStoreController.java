@@ -24,10 +24,17 @@ public class BookStoreController {
 
     public BookStoreController(){}
     @GetMapping("/")
+   /**
+    * Redirects url '/' to the method that renders index.html*/
     public String showHome(){
         return "redirect:/books";
 
     }
+    /**
+     * Calls the front end of that shows all books in index.html
+     *
+     * */
+
     @GetMapping("/books")
     public String showCatalogue(Model model, HttpSession session) throws UserEmailHasNoIdException {
 
@@ -42,36 +49,7 @@ public class BookStoreController {
 
         return "index";
     }
-    /*
-   @GetMapping("/books/filtered")
-    public String showFilteredCatalogue(@RequestParam("author")String author,@RequestParam("priceRange")String priceRange,
-                                        @RequestParam String category,Model model,HttpSession session){
-        BooksService booksService = new BooksService(booksCatalogueRepository);
-        UserService userService = new UserService(userRepository);
-        int currentUserId = userService.findUser((String)session.getAttribute("userEmail"));
-        try{
-            List<BookDTO> books = booksService.getFilteredBooks(author,category,priceRange);
-            model.addAttribute("books",books);
-        }catch(Exception e){
-            model.addAttribute("errorMessage",e.getMessage());
 
-        }
-        model.addAttribute("userId",currentUserId);
-        //return "index";
-    }*/
-    /*@GetMapping("/books/search")
-    public String showSearchResults(@RequestParam("query")String query, Model model,HttpSession session){
-        UserService userService = new UserService(userRepository);
-        BooksService booksService = new BooksService(booksCatalogueRepository);
-
-        int currentUserId = userService.findUser((String)session.getAttribute("userEmail"));
-        List<BookDTO> books = booksService.getSearchResultsBooks(query);
-        model.addAttribute("books",books);
-
-        model.addAttribute("userId",currentUserId);
-        return "index";
-
-    }*/
 
 }
 

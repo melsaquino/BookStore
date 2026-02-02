@@ -23,7 +23,11 @@ import java.io.IOException;
 public class LoginController {
     @Autowired
     private UserRepository userRepository;
+    private final SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
+    /**
+     * Used to show login.html to user
+     * */
     @GetMapping("/login")
     public String ShowLoginPage(HttpServletRequest request,Model model) {
         HttpSession session = request.getSession(false);
@@ -35,10 +39,13 @@ public class LoginController {
         return "login";
     }
 
-    private final SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
-
+    /**
+     * Processes logout
+     *
+     * */
     @PostMapping("/logout")
     public String logout(HttpServletRequest request,HttpServletResponse response) throws ServletException {
+
         HttpSession session = request.getSession(false);
         String errorMessage = (String) session.getAttribute("loginError");
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

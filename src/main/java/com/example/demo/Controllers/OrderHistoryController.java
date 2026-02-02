@@ -26,11 +26,7 @@ public class OrderHistoryController {
 
     @GetMapping("/order_history/{userId}")
     public  String showOrderHistory(@PathVariable("userId")int userId, Model model){
-
-        //OrderHistoryService orderHistoryService=new OrderHistoryService(ordersRepository,booksCatalogueRepository);
-       // List<OrderHistoryEntryDTO> orders=orderHistoryService.getBooksOrderedByCustomerId(userId);
         model.addAttribute("userId",userId);
-        //model.addAttribute("orders",orders);
         return"history";
     }
 }

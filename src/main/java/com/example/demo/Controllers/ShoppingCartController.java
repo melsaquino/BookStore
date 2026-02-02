@@ -26,6 +26,11 @@ public class ShoppingCartController {
     @Autowired
     private ShoppingCartRepository shoppingRepository;
 
+    /**
+     * Triggers the shoppingCart.html to be shown to user
+     * @param userId used to make sure the correct user's shopping cart is shown as well as sent to html that is needed in the dynamic links.
+     * */
+
     @GetMapping("/shopping_cart/{userId}")
     public String showShoppingCart(@PathVariable("userId") int userId, Model model, HttpSession session){
         UserService userService = new UserService(userRepository);
@@ -36,7 +41,9 @@ public class ShoppingCartController {
         return "redirect:/logout";
 
     }
-
+    /**
+     * Controller that will add books to a users shopping cart
+     * */
     @PostMapping("/add_cart/{userId}/{bookIsbn}")
     public String addToCart(@PathVariable("userId") int userId, @PathVariable("bookIsbn") int bookIsbn, Model model ){
         ShoppingCartService shoppingCartService = new ShoppingCartService(shoppingRepository,booksCatalogueRepository,userRepository);

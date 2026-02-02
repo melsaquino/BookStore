@@ -24,7 +24,6 @@ public class OrderHistoryService {
     public  List<OrderHistoryEntryDTO>getBooksOrderedByCustomerId(int userId){
         List<Order> userOrders =this.ordersRepository.getOrdersByCustomerId(userId);
         List<OrderHistoryEntryDTO> customerOrderedBooks =new ArrayList<>();
-
         for(Order order:userOrders){
             Book book = booksCatalogueRepository.findByIsbn(order.getBookIsbn());
             customerOrderedBooks.add(new OrderHistoryEntryDTO(order.getTransactionId(), order.getCustomerId(), order.getBookIsbn(),
