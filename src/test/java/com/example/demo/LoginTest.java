@@ -35,7 +35,8 @@ public abstract class LoginTest {
         String csrfToken = (String) request.getAttribute("_csrf");
         this.session = (MockHttpSession) request.getSession(true);
 
-        // now perform login POST
+        // now perform login POST. this can fail based on values in the database
+        //next iteration a different test database should be used for this
         mockMvc.perform(post("/login")
                         .param("email", "m@gmail.com")
                         .param("password", "123")

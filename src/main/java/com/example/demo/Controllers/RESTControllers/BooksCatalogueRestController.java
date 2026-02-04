@@ -36,7 +36,7 @@ public class BooksCatalogueRestController {
      *  */
     @GetMapping("/books")
     public ResponseEntity<List<BookDTO>> showBooks(@RequestParam(defaultValue = "0") int page,
-                                                   @RequestParam(defaultValue = "5") int size){
+                                                   @RequestParam(defaultValue = "4") int size){
         BooksService booksService = new BooksService(booksCatalogueRepository);
         try{
             List <BookDTO> books = booksService.getAllBooksInStock(page, size);

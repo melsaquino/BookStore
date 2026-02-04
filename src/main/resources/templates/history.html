@@ -20,6 +20,12 @@
     <div id="books-container" th:attr="data-user-id=${userId}"></div>
 
     <table class="table table-bordered container">
+        <tr style="align-items: center">
+            <td>
+                <button id="prevBtn" ><</button>
+                <button id="nextBtn" >></button>
+            </td>
+        </tr>
         <tr>
             <th>Title</th>
             <th>Author</th>
@@ -33,7 +39,6 @@
         </tbody>
 
     </table>
-    <button id="prevBtn" ><</button>
-    <button id="nextBtn" >></button>
+
 </body>
 </html>

@@ -36,7 +36,7 @@ public class BookStoreController {
      * */
     @GetMapping("/books")
     public String showCatalogue(@RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "5") int size,Model model, HttpSession session) throws UserEmailHasNoIdException {
+                                @RequestParam(defaultValue = "4") int size,Model model, HttpSession session) throws UserEmailHasNoIdException {
 
         UserService userService;
         userService = new UserService(userRepository);

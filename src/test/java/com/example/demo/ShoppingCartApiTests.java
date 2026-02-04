@@ -20,7 +20,7 @@ public class ShoppingCartApiTests extends LoginTest{
     @Test
     public void testGetShoppingCart() throws Exception {
         // Perform the GET request and get the result
-        MvcResult result = mockMvc.perform(get("/api/shopping_cart/100").session(this.session))
+        MvcResult result = mockMvc.perform(get("/api/shopping_cart/101").session(this.session))
                 .andExpect(status().isOk())
                 .andReturn();
         String jsonResponse = result.getResponse().getContentAsString();

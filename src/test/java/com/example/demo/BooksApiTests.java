@@ -20,6 +20,9 @@ public class BooksApiTests extends LoginTest {
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * Tests that all books are retrieved even if there is nothing entered when submitting the filtered form
+     * */
     @Test
     public void testGetFilteredBooksNoParams() throws Exception{
         // Perform the GET request and get the result
@@ -41,6 +44,9 @@ public class BooksApiTests extends LoginTest {
             Assertions.assertTrue(bookNode.has("price"), "JSON should contain 'price'");
         }
     }
+    /**
+     * Tests that the books can be retrieved and that the keys are all complete
+     * */
     @Test
     public void testGetBooks() throws Exception {
 
@@ -64,7 +70,9 @@ public class BooksApiTests extends LoginTest {
             Assertions.assertTrue(bookNode.has("price"), "JSON should contain 'price'");
         }
     }
-
+    /**
+     * Tests that all values has the same author when filtered by author
+     * */
     @Test
     public void testGetBooksFilterAuthor() throws Exception {
         // Perform the GET request and get the result
@@ -87,6 +95,9 @@ public class BooksApiTests extends LoginTest {
             Assertions.assertTrue(bookNode.has("price"), "JSON should contain 'price'");
         }
     }
+    /**
+     * Tests that all values are within the filtered price range
+     * */
     @Test
     public void testFilterPriceRange() throws Exception{
         MvcResult result = mockMvc.perform(get("/api/books/filtered?priceRange=200-300").session(this.session))
@@ -110,6 +121,9 @@ public class BooksApiTests extends LoginTest {
             Assertions.assertTrue(bookNode.get("price").asDouble() >= 200 && bookNode.get("price").asDouble() <= 300);
         }
     }
+    /**
+     * Tests that all json in the json array that are in the body has the correct value when filtered by category
+     * */
     @Test
     public void testGetBooksFilterCategory() throws Exception {
 
@@ -136,6 +150,9 @@ public class BooksApiTests extends LoginTest {
             Assertions.assertTrue(bookNode.has("price"), "JSON should contain 'price'");
         }
     }
+    /**
+     * Tests if the PriceRange filter invalid input would cause a bad request status code
+     * */
     @Test
     public void InvalidRange() throws Exception{
         //check random word
@@ -157,7 +174,9 @@ public class BooksApiTests extends LoginTest {
 
         Assertions.assertTrue(jsonNode.has("error"), "Missing error key");
     }
-
+    /**
+     * Tests if the json return value would be empty if an invalid category was entered
+     * */
     @Test
     public void testGetBooksFilterCategoryNotExist() throws Exception {
 

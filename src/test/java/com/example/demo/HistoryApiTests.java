@@ -13,6 +13,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @AutoConfigureMockMvc
 @SpringBootTest
 public class HistoryApiTests extends LoginTest {
@@ -21,7 +22,7 @@ public class HistoryApiTests extends LoginTest {
     @Test
     public void testGetHistory() throws Exception {
         // Perform the GET request and get the result
-        MvcResult result = mockMvc.perform(get("/api/order_history/100").session(this.session))
+        MvcResult result = mockMvc.perform(get("/api/order_history/101").session(this.session))
                 .andExpect(status().isOk())
                 .andReturn();
         String jsonResponse = result.getResponse().getContentAsString();

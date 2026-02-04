@@ -24,12 +24,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AddToCartTestsAndCheckout extends LoginTest{
     @Autowired
     private MockMvc mockMvc;
-
+    /**
+     * Test that add to cart button will cause a book to be in the shopping cart page
+     * This must be run before testing checkout method to ensure items to be checked out is not null
+     * */
     @Test
     @BeforeEach
     public void addToCartTest() throws Exception{
         //used to get what the current quantity in shopping cart is
-        MvcResult BeforeAddresult = mockMvc.perform(get("/api/shopping_cart/100").session(this.session))
+        MvcResult BeforeAddresult = mockMvc.perform(get("/api/shopping_cart/101").session(this.session))
                 .andExpect(status().isOk())
                 .andReturn();
         String jsonResponseBefore = BeforeAddresult.getResponse().getContentAsString();
@@ -43,9 +46,9 @@ public class AddToCartTestsAndCheckout extends LoginTest{
         //add to cart post
         MvcResult result = mockMvc.perform(post("/add_cart/100/1000000003")
                         .session(this.session).with(csrf()))
-                .andExpect(redirectedUrl("/shopping_cart/100"))
+                .andExpect(redirectedUrl("/shopping_cart/101"))
                 .andReturn();
-        MvcResult resultAfter = mockMvc.perform(get("/api/shopping_cart/100").session(this.session))
+        MvcResult resultAfter = mockMvc.perform(get("/api/shopping_cart/101").session(this.session))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -58,15 +61,21 @@ public class AddToCartTestsAndCheckout extends LoginTest{
         assertNotNull(book, "Book not found");
         assertEquals( oldQuantity+1, book.path("quantity").asInt(),"Quantity was not added");
     }
+    /**
+     * Tests that invalid books would cause a bad request status
+     * */
     @Test
     public void addUnknowBookToCartTest() throws Exception{
         //used to get what the current quantity in shopping cart is
 
-        MvcResult result = mockMvc.perform(post("/add_cart/100/1006600003")
+        MvcResult result = mockMvc.perform(post("/add_cart/101/1006600003")
                         .session(this.session).with(csrf()))
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
+    /**
+     * Tests that a user that is not logged would cause a bad request status
+     * */
     @Test
     public void addBookToCartByNotLoggedInUser() throws Exception{
         //used to get what the current quantity in shopping cart is
@@ -76,14 +85,16 @@ public class AddToCartTestsAndCheckout extends LoginTest{
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
-
+    /**
+     * Tests that checkout will cause the g cart to be empty and status code is ok
+     * */
     @Test
     public void checkoutAllApiTest() throws Exception{
-        MvcResult postResult = mockMvc.perform(post("/checkout/100/all").session(this.session))
+        MvcResult postResult = mockMvc.perform(post("/checkout/101/all").session(this.session))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        MvcResult cartAfter = mockMvc.perform(get("/api/shopping_cart/100").session(this.session))
+        MvcResult cartAfter = mockMvc.perform(get("/api/shopping_cart/101").session(this.session))
                 .andExpect(status().isOk())
                 .andReturn();
         String jsonResponse = cartAfter.getResponse().getContentAsString();
@@ -93,15 +104,19 @@ public class AddToCartTestsAndCheckout extends LoginTest{
         Assertions.assertTrue(jsonNode.isEmpty());
 
     }
-
+    /**
+     *  Tests that users that are not logged in trying to checkput will cause a bad request
+     * */
     @Test
     public void CheckoutNotLoggedInUser() throws Exception{
-        MvcResult result = mockMvc.perform(post("/checkout/101/all")
+        MvcResult result = mockMvc.perform(post("/checkout/111/all")
                         .session(this.session).with(csrf()))
                 .andExpect(status().isBadRequest())
                 .andReturn();
     }
-
+    /**
+     * Used to find a JsonNode based on their key
+     * */
     private JsonNode findByKeyValue(JsonNode arrayNode, String key, String expectedValue) {
         for (JsonNode node : arrayNode) {
             if (expectedValue.equals(node.path(key).asText())) {
