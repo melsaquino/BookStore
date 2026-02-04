@@ -23,10 +23,10 @@ public class BookStoreController {
     private UserRepository userRepository;
 
     public BookStoreController(){}
-    @GetMapping("/")
    /**
     * Redirects url '/' to the method that renders index.html*/
-    public String showHome(){
+   @GetMapping("/")
+   public String showHome(){
         return "redirect:/books";
 
     }
@@ -34,7 +34,6 @@ public class BookStoreController {
      * Calls the front end of that shows all books in index.html
      *
      * */
-
     @GetMapping("/books")
     public String showCatalogue(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "5") int size,Model model, HttpSession session) throws UserEmailHasNoIdException {
@@ -51,9 +50,8 @@ public class BookStoreController {
             model.addAttribute("admin",true);
 
         model.addAttribute("userId",currentUserId);
-        model.addAttribute("page",0);
+        model.addAttribute("page",page);
         model.addAttribute("size",size);
-
 
         return "index";
     }

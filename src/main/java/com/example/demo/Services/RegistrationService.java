@@ -45,7 +45,7 @@ public class RegistrationService {
      * @param email the user's email that serves as their username
      * @param password the user's password
      * @param psw_repeat the admin's input for the re-submit password making sure they know the password they are making
-     * @param role the user role the admin assign
+     * @param role the user role the admin assigned
      * */
     public void registerUser(int admin_id,String email,String password,String psw_repeat,String role) throws Exception {
         if (!isPasswordsMatch(password,psw_repeat))

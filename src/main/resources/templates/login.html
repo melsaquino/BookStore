@@ -10,6 +10,9 @@
     <div th:if="${errorMessage}" class="alert alert-danger">
         <p th:text="${errorMessage}">Display the error message here.</p>
     </div>
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}">Display the error message here.</p>
+    </div>
 
     <form method="POST" th:action="@{/login}">
         <div class="form-group">

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AdminController {
@@ -22,7 +23,7 @@ public class AdminController {
     @Autowired
     BooksCatalogueRepository booksCatalogueRepository;
     @GetMapping("/admin")
-    public String showAdminAddUser(HttpSession session, Model model) throws UserEmailHasNoIdException {
+    public String showAdminPage(HttpSession session, Model model,RedirectAttributes redirectAttributes) throws UserEmailHasNoIdException {
         UserService userService;
         userService = new UserService(userRepository);
         int currentUserId = userService.findUser((String)session.getAttribute("userEmail"));
@@ -30,16 +31,20 @@ public class AdminController {
         String currentUserRole = userService.findUserRole((String)session.getAttribute("userEmail"));
         if (currentUserId ==-1){
             throw new UserEmailHasNoIdException("Your email does not have an Id associated with it");
+
         }
-        if(!currentUserRole.equals("ADMIN"))
+        if(!currentUserRole.equals("ADMIN")){
+            redirectAttributes.addFlashAttribute("errorMessage","You had invalid access");
             return "redirect:/books";
+
+        }
         model.addAttribute("admin",true);
             return "admin";
 
     }
     @PostMapping("/admin/registration")
     public String createUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("psw_repeat") String psw_repeat,
-                             @RequestParam("role") String role,Model model,HttpSession session){
+                             @RequestParam("role") String role, Model model, HttpSession session, RedirectAttributes redirectAttributes){
         System.out.println(role);
         System.out.println("Got here");
         RegistrationService registrationService;
@@ -49,23 +54,28 @@ public class AdminController {
 
         registrationService = new RegistrationService(userRepository);
         try{
+
             registrationService.registerUser(currentUserId,email.toLowerCase(),password,psw_repeat,role);
-            model.addAttribute("successMessage","Account successfully created");
-            return "admin";
+            redirectAttributes.addFlashAttribute("successMessage", "Account successfully created");
+
+            return "redirect:/admin";
 
         } catch (Exception e) {
             model.addAttribute("errorMessage",e.getMessage());
             if (e instanceof InvalidAccessException){
-                return "index";
+                redirectAttributes.addFlashAttribute("errorMessage","You had invalid access");
+                return "redirect:/books";
 
             }
-            return "admin";
+            redirectAttributes.addFlashAttribute("errorMessage",e.getMessage());
+            return "redirect:/admin";
         }
 
     }
     @PostMapping("/admin/add_book")
     public String createBook(@RequestParam("title") String title, @RequestParam("author") String author, @RequestParam("category") String category,
-                             @RequestParam("price") String price, @RequestParam("description") String description,@RequestParam("stock") String stock, Model model,HttpSession session){
+                             @RequestParam("price") String price, @RequestParam("description") String description,@RequestParam("stock") String stock, Model model,HttpSession session,
+                             RedirectAttributes redirectAttributes){
 
         BooksService booksService;
         booksService = new BooksService(booksCatalogueRepository,userRepository);
@@ -75,15 +85,19 @@ public class AdminController {
 
         try{
             booksService.addBooks(currentUserId,title,author, category,price, description,stock);
-            model.addAttribute("successMessage","Book successfully created");
-            return "admin";
+            redirectAttributes.addFlashAttribute("successMessage","Book successfully created");
+            return "redirect:/admin";
 
         } catch (Exception e) {
             model.addAttribute("errorMessage",e.getMessage());
             if (e instanceof InvalidAccessException){
-                return "index";
+                redirectAttributes.addFlashAttribute("errorMessage","You had invalid access");
+
+                return "redirect:/books";
             }
-            return "admin";
+            redirectAttributes.addFlashAttribute("errorMessage",e.getMessage());
+
+            return "redirect:/admin";
         }
 
     }

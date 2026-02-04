@@ -148,7 +148,16 @@ public class BooksService {
                                 book.getDescription(),book.getCategory(), book.getStock())
                 ).collect(Collectors.toList());
     }
-
+    /**
+     * Method used to add books to the books table of the database
+     * @param admin_id ID number of the admin adding the book
+     * @param title title of the book
+     * @param author author of the book
+     * @param category category of the book
+     * @param price the price of the book
+     * @param description the description of the book
+     * @param stock the stock of the book
+     * */
     public void addBooks(int admin_id, String title, String author,String category, String price,
                          String description, String stock) throws Exception {
         if (!userRepository.findById(admin_id).getRole().equals("ADMIN"))

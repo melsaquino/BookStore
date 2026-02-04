@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
@@ -44,7 +45,7 @@ public class LoginController {
      *
      * */
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request,HttpServletResponse response) throws ServletException {
+    public String logout(HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) throws ServletException {
 
         HttpSession session = request.getSession(false);
         String errorMessage = (String) session.getAttribute("loginError");
@@ -52,7 +53,6 @@ public class LoginController {
         if (auth != null) {
             logoutHandler.logout(request, response, auth);
         }
-
         return "redirect:/login"; // Redirect to a login page or confirmation
     }
 }

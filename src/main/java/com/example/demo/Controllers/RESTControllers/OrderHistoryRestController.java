@@ -8,10 +8,7 @@ import com.example.demo.Services.OrderHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,10 +25,11 @@ public class OrderHistoryRestController {
      * @return A response entity that communicates the http status and the OrderHistory will be in the body
      * @param userId the current user's id to ensure the orders of the correct user is shown to the correct user
      *  */
-    public ResponseEntity<List<OrderHistoryEntryDTO>> showOrderHistory(@PathVariable("userId")int userId, Model model){
+    public ResponseEntity<List<OrderHistoryEntryDTO>> showOrderHistory(@RequestParam(defaultValue = "0") int page,
+                                                                       @RequestParam(defaultValue = "5") int size,@PathVariable("userId")int userId, Model model){
 
         OrderHistoryService orderHistoryService=new OrderHistoryService(ordersRepository,booksCatalogueRepository);
-        List<OrderHistoryEntryDTO> orders=orderHistoryService.getBooksOrderedByCustomerId(userId);
+        List<OrderHistoryEntryDTO> orders=orderHistoryService.getBooksOrderedByCustomerId(userId,page,size);
         model.addAttribute("userId",userId);
         return ResponseEntity.ok(orders);
     }

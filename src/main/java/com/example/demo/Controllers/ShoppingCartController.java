@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -49,14 +50,15 @@ public class ShoppingCartController {
      * Controller that will add books to a users shopping cart
      * */
     @PostMapping("/add_cart/{userId}/{bookIsbn}")
-    public String addToCart(@PathVariable("userId") int userId, @PathVariable("bookIsbn") int bookIsbn, Model model ){
+    public String addToCart(@PathVariable("userId") int userId, @PathVariable("bookIsbn") int bookIsbn, Model model, RedirectAttributes redirectAttributes){
         ShoppingCartService shoppingCartService = new ShoppingCartService(shoppingRepository,booksCatalogueRepository,userRepository);
         try{
-           shoppingCartService.AddToShoppingCart(userId,bookIsbn);
+            shoppingCartService.AddToShoppingCart(userId,bookIsbn);
+            redirectAttributes.addFlashAttribute("successMessage", "Order Added to Cart");
             return "redirect:/shopping_cart/{userId}";
         }catch(Exception e){
-           model.addAttribute("errorMessage",e.getMessage());
-           return "index";
+            redirectAttributes.addFlashAttribute("errorMessage",e.getMessage());
+           return "redirect:/books";
         }
     }
 

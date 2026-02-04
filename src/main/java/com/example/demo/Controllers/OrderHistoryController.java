@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Comparator;
 import java.util.List;
@@ -28,7 +29,8 @@ public class OrderHistoryController {
     @Autowired
     private UserRepository userRepository;
     @GetMapping("/order_history/{userId}")
-    public  String showOrderHistory(@PathVariable("userId")int userId, Model model, HttpSession session){
+    public  String showOrderHistory(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "5") int size,@PathVariable("userId")int userId, Model model, HttpSession session){
         UserService userService = new UserService(userRepository);
 
         if(userService.findUser((String)session.getAttribute("userEmail"))==userId){
@@ -37,7 +39,7 @@ public class OrderHistoryController {
             if(currentUserRole.equals("ADMIN"))
                 model.addAttribute("admin",true);
             return "history";
-        };
+        }
         return"redirect:/books";
     }
 }

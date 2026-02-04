@@ -1,7 +1,7 @@
 const csrfToken = document.querySelector('meta[name="_csrf"]').content;
 const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
 let currentPage = 0;
-
+fetchAllBooks();
 function fetchBasedOnEndPoints( url,method){
     const container = document.getElementById("books-container");
     const userId = container.dataset.userId;
@@ -27,6 +27,7 @@ function fetchBasedOnEndPoints( url,method){
 
                 const button = document.createElement('button');
                 button.type = 'submit';
+                button.className="btn btn-outline-success";
                 button.textContent = 'Add to cart now!';
 
                 form.appendChild(button);
@@ -52,10 +53,8 @@ function fetchBasedOnEndPoints( url,method){
 function  fetchAllBooks(page=0) {
     currentPage =page;
         fetchBasedOnEndPoints(`/api/books?page=${page}`,"GET");
-
-
 }
-fetchAllBooks();
+
 document.getElementById("nextBtn").addEventListener("click", () => {
     fetchAllBooks(currentPage + 1);
 });

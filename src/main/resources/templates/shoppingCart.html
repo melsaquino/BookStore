@@ -10,6 +10,12 @@
     <title>Shopping Cart</title>
 </head>
 <body>
+    <div th:if="${errorMessage}" class="alert alert-danger">
+        <p th:text="${errorMessage}">Display the error message here.</p>
+    </div>
+    <div th:if="${successMessage}" class="alert alert-success">
+        <p th:text="${successMessage}">Display the  message here.</p>
+    </div>
     <h1>Your Shopping Cart!</h1>
     <div th:insert="nav.html::navbar"></div>
     <div th:if="${errorMessage}" class="alert alert-danger">
@@ -21,9 +27,8 @@
         <tr>
             <th>Title</th>
             <th>Author</th>
-            <th>Price</th>
-            <th>Category</th>
             <th>Quantity</th>
+            <th>Price</th>
         </tr>
         <tbody id="books-list">
         <!-- rows will be injected here -->

@@ -9,14 +9,15 @@
 
     <body>
         <h1>Hello Admin</h1>
+
+        <div th:insert="nav.html::navbar">
+            <!-- The navbar fragment will be included here -->
+        </div>
         <div th:if="${errorMessage}" class="alert alert-danger">
             <p th:text="${errorMessage}">Display the error message here.</p>
         </div>
         <div th:if="${successMessage}" class="alert alert-success">
             <p th:text="${successMessage}">Display the error message here.</p>
-        </div>
-        <div th:insert="nav.html::navbar">
-            <!-- The navbar fragment will be included here -->
         </div>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">

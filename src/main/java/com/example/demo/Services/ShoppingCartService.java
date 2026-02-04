@@ -24,8 +24,12 @@ public class ShoppingCartService {
         this.booksCatalogueRepository=booksCatalogueRepository;
         this.userRepository=userRepository;
     }
-    public List<ShoppingCartEntryDTO> getShoppingCartBooks(int user_id ){
-        List<ShoppingCart> userShoppingCart=shoppingCartRepository.findShoppingCartByUserId(user_id);
+    /**
+     * Retrieve all the books and their relevant data from the user's shopping cart
+     * @userId the user's customer ID
+     * */
+    public List<ShoppingCartEntryDTO> getShoppingCartBooks(int userId ){
+        List<ShoppingCart> userShoppingCart=shoppingCartRepository.findShoppingCartByUserId(userId);
         List<ShoppingCartEntryDTO> booksInCart= new ArrayList<>();
         for (ShoppingCart cartItem:userShoppingCart){
             Book book=booksCatalogueRepository.findByIsbn(cartItem.getBookIsbn());
@@ -34,6 +38,11 @@ public class ShoppingCartService {
         return booksInCart;
 
     }
+    /**
+     * Handles adding a book into the shopping cart
+     * @param user_id the user's ID
+     * @param isbn the unique ISBN of the book to be added in the shopping cart
+     * */
     public void AddToShoppingCart(int user_id,int isbn) throws BookDoesNotExist {
         ShoppingCart shoppingCartEntry;
         //check if user and book isbn are real
@@ -59,15 +68,6 @@ public class ShoppingCartService {
             if(booksCatalogueRepository.findByIsbn(isbn)==null)
                 throw new BookDoesNotExist(isbn);
             else throw new UserDoesNotExist("The user does not exist to make that transaction");
-        }
-
-    }
-
-    public ShoppingCart getShoppingCartByIsbn(int book_isbn) throws BookDoesNotExist {
-        if(shoppingCartRepository.findShoppingCartByBookIsbn(book_isbn)!=null)
-            return shoppingCartRepository.findShoppingCartByBookIsbn(book_isbn);
-        else {
-            throw new BookDoesNotExist("Book does not exist in shoppingCart");
         }
 
     }

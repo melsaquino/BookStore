@@ -7,6 +7,8 @@ import com.example.demo.Repositories.BooksCatalogueRepository;
 import com.example.demo.Repositories.OrdersRepository;
 import com.example.demo.Repositories.ShoppingCartRepository;
 import com.example.demo.Repositories.UserRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,8 +29,10 @@ public class OrderHistoryService {
      * @param userId the user's unique Id used to ensure that the Books were ordered by only this specific user
      * @return returns a list of OrderHistoryDTO to be shown to the user
      * */
-    public  List<OrderHistoryEntryDTO>getBooksOrderedByCustomerId(int userId){
-        List<Order> userOrders =this.ordersRepository.getOrdersByCustomerId(userId);
+    public  List<OrderHistoryEntryDTO>getBooksOrderedByCustomerId(int userId,int page,int size){
+        Pageable pageable = PageRequest.of(page, size);
+
+        List<Order> userOrders =this.ordersRepository.getOrdersByCustomerId(userId,pageable);
         List<OrderHistoryEntryDTO> customerOrderedBooks =new ArrayList<>();
         for(Order order:userOrders){
             Book book = booksCatalogueRepository.findByIsbn(order.getBookIsbn());

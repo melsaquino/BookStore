@@ -21,6 +21,9 @@
 <div th:if="${errorMessage}" class="alert alert-danger">
     <p th:text="${errorMessage}">Display the error message here.</p>
 </div>
+<div th:if="${successMessage}" class="alert alert-success">
+    <p th:text="${successMessage}">Display the error message here.</p>
+</div>
 <div class="container">
     <div style="padding:10px">
         <form class="d-flex" method="get" action="" id="search-bar">
