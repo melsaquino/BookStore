@@ -6,6 +6,9 @@ import lombok.Setter;
 import java.time.*;
 @Entity
 @Table(name="orders")
+/**
+ * Class that represents the orders table
+ * */
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-
+/**
+ * Class that represent as Book DTO or the data that will be displayed to the users
+ * */
 public class BookDTO implements Serializable {
 
     @Getter

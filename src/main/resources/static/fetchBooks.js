@@ -1,9 +1,11 @@
 const csrfToken = document.querySelector('meta[name="_csrf"]').content;
 const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+let currentPage = 0;
 
 function fetchBasedOnEndPoints( url,method){
     const container = document.getElementById("books-container");
     const userId = container.dataset.userId;
+
     fetch(url, {
         method: method,// Specify the HTTP method
         credentials: "include"
@@ -46,14 +48,21 @@ function fetchBasedOnEndPoints( url,method){
         .catch(error => {
             console.error('Error loading books:', error);
         });
-
 }
-function  fetchAllBooks() {
+function  fetchAllBooks(page=0) {
+    currentPage =page;
+        fetchBasedOnEndPoints(`/api/books?page=${page}`,"GET");
 
-    fetchBasedOnEndPoints("/api/books","GET");
 
 }
 fetchAllBooks();
+document.getElementById("nextBtn").addEventListener("click", () => {
+    fetchAllBooks(currentPage + 1);
+});
+document.getElementById("prevBtn").addEventListener("click", () => {
+    if(currentPage>0)
+        fetchAllBooks(currentPage - 1);
+});
 
 document.getElementById("book-filter").addEventListener("submit", function(event) {
     event.preventDefault(); // prevent page reload
@@ -88,4 +97,5 @@ document.getElementById("search-bar").addEventListener("submit", function(event)
     fetchBasedOnEndPoints(url, "GET");
     
 });
+
 

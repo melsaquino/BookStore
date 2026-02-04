@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
-
+/**
+ * Class representing a DTO that holds the data about each user's shopping entry
+ * */
 public class ShoppingCartEntryDTO implements Serializable {
     @Getter
     @Setter

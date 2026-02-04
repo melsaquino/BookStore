@@ -12,6 +12,7 @@
 
 </head>
 <body>
+
 <div id="books-container" th:attr="data-user-id=${userId}"></div>
     <h1> Welcome to the bookstore! </h1>
 <div th:insert="nav.html::navbar">
@@ -33,6 +34,8 @@
             </button>
         </form>
     </div>
+
+
     <form method="get" id="book-filter" class="row g-2 mb-3">
         <input type="hidden" name="q" th:value="${param.q}">
 
@@ -66,6 +69,8 @@
         </div>
     </form>
 </div>
+<div class="continer">
+
 <table  class="table table-bordered container">
     <tr>
         <th>Title</th>
@@ -78,23 +83,13 @@
     <tbody id="books-list">
     <!-- rows will be injected here -->
     </tbody>
-    <!-- tr th:each="book : ${books}">
 
-        <td th:text="${book.title}">Title ...</td>
-        <td th:text="${book.author}">Author ...</td>
-        <td th:text="${book.description}">This is a book ...</td>
-        <td th:text="${book.price}">300 ...</td>
-        <td th:text="${book.category}">Fiction ...</td>
-        <td th:text="${book.stock}">Fiction ...</td>
+    </table>
 
-        <td>
-            <form th:action="@{/add_cart/{userId}/{bookIsbn}(userId=${userId},bookIsbn=${book.isbn})}" method="post">
+    <button id="prevBtn" ><</button>
+    <button id="nextBtn" >></button>
 
-                <button name="addToCart" >Add to cart now!</button></form>
-        </td>
-    </tr-->
-</table>
-
+    </div>
 </body>
 
 </html>

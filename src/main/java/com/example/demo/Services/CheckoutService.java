@@ -12,7 +12,9 @@ import com.example.demo.Exceptions.BookNoStockException;
 import com.example.demo.Exceptions.UserDoesNotExist;
 
 import java.util.List;
-
+/**
+ * Service class that serves the checkout functionalities
+ * */
 public class CheckoutService {
     private final BooksCatalogueRepository booksCatalogueRepository;
     private final UserRepository userRepository;
@@ -26,7 +28,10 @@ public class CheckoutService {
         this.ordersRepository=ordersRepository;
     }
 
-    //checkout all in the cart
+    /**
+     * Service Function that processes the user wanting to check out all items in their shopping cart
+     * @param userId the user's id that will have their shopping cart cleared
+     * */
     public void processCheckout(int userId) throws BookDoesNotExist, BookNoStockException {
         if (isUserExists(userId)){
             //check if user has items in the shopping cart
@@ -63,10 +68,17 @@ public class CheckoutService {
         else throw new UserDoesNotExist("User does not exist to make that transaction");
 
     }
-
+    /**
+     * Method used to check if the book actually exists in the database
+     * @param isbn the book's unique isb is the identifier for the repository to quer
+     * */
     private boolean isBookExists(int isbn){
         return (booksCatalogueRepository.findByIsbn(isbn)!=null);
     }
+    /**
+     * Method used to check if the user actually exists in the database
+     * @param user_id the user's unique ID is the identifier for the repository to query
+     * */
     private boolean isUserExists(int user_id){
         return (userRepository.findById(user_id)!=null);
 

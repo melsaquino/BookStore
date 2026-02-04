@@ -26,28 +26,27 @@ public class RegistrationController {
         }
         return "registration";
     }
+
     /**
      * Controller that triggers the registration service that will make the user
      * @email email the user will be used and will be their username
      * @password password to be saved once hashed
      *
      * */
-
     @PostMapping("/registration")
     public String createUser(@RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("psw_repeat") String psw_repeat, Model model){
         RegistrationService registrationService;
 
         registrationService = new RegistrationService(userRepository);
         try{
-            registrationService.registerUser(email,password,psw_repeat);
+            registrationService.registerUser(email.toLowerCase(),password,psw_repeat);
             return "login";
 
-        } catch (UserExistsException | PasswordMismatchException e) {
+        } catch (Exception e) {
             model.addAttribute("errorMessage",e.getMessage());
 
             return "/registration";
         }
-
 
     }
 }

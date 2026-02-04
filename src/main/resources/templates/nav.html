@@ -12,6 +12,11 @@
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/order_history/{userId}(userId=${userId})}" method="GET">Order History</a>
             </li>
+                <!-- Content inside this div will only be rendered if user.isAdmin is true -->
+                <li class="nav-item" th:if="${admin}">
+                    <a class="nav-link" th:href="@{/admin}" method="GET">Admin Page</a>
+                </li>
+
             </ul>
             <ul class="navbar-nav ms-auto">
             <li class="nav-item">

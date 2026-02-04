@@ -10,7 +10,9 @@ import com.example.demo.Repositories.UserRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
+/**
+ * Service class that primarily works with getting the order history of the user
+ * */
 public class OrderHistoryService {
     private final BooksCatalogueRepository booksCatalogueRepository;
     private final OrdersRepository ordersRepository;
@@ -20,7 +22,11 @@ public class OrderHistoryService {
         this.booksCatalogueRepository =booksCatalogueRepository;
 
     }
-
+    /**
+     * Method gets all the books the user have ordered/checked out
+     * @param userId the user's unique Id used to ensure that the Books were ordered by only this specific user
+     * @return returns a list of OrderHistoryDTO to be shown to the user
+     * */
     public  List<OrderHistoryEntryDTO>getBooksOrderedByCustomerId(int userId){
         List<Order> userOrders =this.ordersRepository.getOrdersByCustomerId(userId);
         List<OrderHistoryEntryDTO> customerOrderedBooks =new ArrayList<>();

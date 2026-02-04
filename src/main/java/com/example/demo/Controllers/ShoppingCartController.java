@@ -34,8 +34,12 @@ public class ShoppingCartController {
     @GetMapping("/shopping_cart/{userId}")
     public String showShoppingCart(@PathVariable("userId") int userId, Model model, HttpSession session){
         UserService userService = new UserService(userRepository);
+
         if(userService.findUser((String)session.getAttribute("userEmail"))==userId){
             model.addAttribute("userId",userId);
+            String currentUserRole = userService.findUserRole((String)session.getAttribute("userEmail"));
+            if(currentUserRole.equals("ADMIN"))
+                model.addAttribute("admin",true);
             return "shoppingCart";
         }
         return "redirect:/logout";

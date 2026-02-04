@@ -9,7 +9,10 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
+/**
+ * Class Represents the DTO that contains details of the user's order history
+ *
+ * */
 public class OrderHistoryEntryDTO implements Serializable {
 
     @Getter

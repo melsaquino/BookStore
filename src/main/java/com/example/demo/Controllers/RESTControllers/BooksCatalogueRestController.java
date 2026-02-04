@@ -35,10 +35,11 @@ public class BooksCatalogueRestController {
      * @return A response entity that communicates the http status and the booksDTO will be in the body
      *  */
     @GetMapping("/books")
-    public ResponseEntity<List<BookDTO>> showBooks(){
+    public ResponseEntity<List<BookDTO>> showBooks(@RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "5") int size){
         BooksService booksService = new BooksService(booksCatalogueRepository);
         try{
-            List <BookDTO> books = booksService.getAllBooksInStock();
+            List <BookDTO> books = booksService.getAllBooksInStock(page, size);
             return ResponseEntity.ok(books);
 
         }catch (Exception e){
@@ -54,13 +55,14 @@ public class BooksCatalogueRestController {
      *  */
     @GetMapping("/books/filtered")
     public ResponseEntity<List<BookDTO>> showFilteredCatalogue(@RequestParam(name= "author",required = false)String author, @RequestParam(name= "priceRange",required = false)String priceRange,
-                                        @RequestParam(name = "category",required = false) String category, HttpSession session){
+                                        @RequestParam(name = "category",required = false) String category, @RequestParam(defaultValue = "0") int page,
+                                                               @RequestParam(defaultValue = "5") int size,HttpSession session){
         BooksService booksService = new BooksService(booksCatalogueRepository);
         UserService userService = new UserService(userRepository);
         List<BookDTO> books =new ArrayList<>();
         int currentUserId = userService.findUser((String)session.getAttribute("userEmail"));
 
-        books = booksService.getFilteredBooks(author,category,priceRange);
+        books = booksService.getFilteredBooks(author,category,priceRange,page,size);
         return ResponseEntity.ok(books);
     }
     /**

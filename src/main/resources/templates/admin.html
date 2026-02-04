@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Admin Page</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <h1>Hello Admin</h1>
+        <div th:if="${errorMessage}" class="alert alert-danger">
+            <p th:text="${errorMessage}">Display the error message here.</p>
+        </div>
+        <div th:if="${successMessage}" class="alert alert-success">
+            <p th:text="${successMessage}">Display the error message here.</p>
+        </div>
+        <div th:insert="nav.html::navbar">
+            <!-- The navbar fragment will be included here -->
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+            Add User
+        </button>
+
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addBooksModal">
+            Add Book
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="Add Users" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Add Users</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div th:insert="adminAddUser.html::createUser"></div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary registerbtn">Register</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div></form> <!-- opening <form>tag in the fragment -->
+            </div>
+        </div>
+        </div>
+
+        <div class="modal fade" id="addBooksModal" tabindex="-1" role="dialog" aria-labelledby="Add Books" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addBooksModalLabel">Add Book</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div th:insert="adminAddBook.html::createBook"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary addBookbtn">Add book</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div></form>  <!-- opening <form>tag in the fragment -->
+
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
+
+

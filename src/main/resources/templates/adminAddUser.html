@@ -1,0 +1,28 @@
+
+<form th:fragment="createUser" method="POST" th:action="@{/admin/registration}" >
+    <div class="form-check form-group">
+        <input  class="form-check-input" type="radio" id="roleAdmin" name="role" value="ADMIN">
+        <label for="roleAdmin">Administrator</label>
+    </div>
+        <div class="form-check form-group">
+
+        <input  class="form-check-input" type="radio" id="roleRegular" name="role" value="Regular">
+        <label for="roleRegular">Regular</label>
+        </div>
+
+    <div class="form-group">
+        <label for="email" ><b>Email</b></label>
+        <input type="text" class="form-control"  placeholder="Enter Email"  name="email" id="email" required>
+    </div>
+
+    <div class="form-group">
+        <label for="password"><b>Password</b></label>
+        <input type="password" class="form-control"  placeholder="Enter Password"  name="password" id="password" required>
+    </div>
+    <div class="form-group">
+        <label for="psw_repeat"><b>Repeat Password</b></label>
+        <input type="password" class="form-control"  placeholder="Repeat Password"  name="psw_repeat" id="psw_repeat" required>
+    </div>
+    <!-- closing tag in the main admin html -->
+
+

@@ -11,7 +11,9 @@ import com.example.demo.Exceptions.UserDoesNotExist;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * Service class that serves shopping cart functionalities
+ * */
 public class ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final BooksCatalogueRepository booksCatalogueRepository;
@@ -60,11 +62,7 @@ public class ShoppingCartService {
         }
 
     }
-    /*public String deleteFromCart(String book_isbn,int id){
-        if (shoppingCartRepository.findShoppingCartByBookIsbn(book_isbn)!=null){
-            if(shoppingCartRepository.findShoppingCartByBookIsbn(book_isbn)!
-        }
-    }*/
+
     public ShoppingCart getShoppingCartByIsbn(int book_isbn) throws BookDoesNotExist {
         if(shoppingCartRepository.findShoppingCartByBookIsbn(book_isbn)!=null)
             return shoppingCartRepository.findShoppingCartByBookIsbn(book_isbn);

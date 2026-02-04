@@ -3,7 +3,9 @@ package com.example.demo.Entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * Class that represents the users table in the database
+ * */
 @Entity
 @Table(name="users")
 public class User {
@@ -22,5 +24,10 @@ public class User {
     @Getter
     @Column(nullable = false)
     private String password;
+
+    @Getter
+    @Setter
+    @Column(nullable = false)
+    private String role;
 
 }
