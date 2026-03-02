@@ -43,7 +43,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                         .usernameParameter("email")
                         .permitAll()
                 )
-                .logout((logout) -> logout.logoutUrl("/logout/"))
+                .logout((logout) -> logout.logoutUrl("/logout"))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 );

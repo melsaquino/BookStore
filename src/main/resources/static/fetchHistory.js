@@ -28,11 +28,12 @@ function fetchBasedOnEndPoints( url,method){
 
             });
         })
+
         .catch(error => {
             console.error('Error loading books:', error);
         });
 }
-function  fetchAllBooks(page=0) {
+function fetchAllBooks(page=0) {
     currentPage =page;
     const container = document.getElementById("books-container");
     const userId = container.dataset.userId;
